@@ -1,0 +1,26 @@
+Code outline for final project
+
+#Extract repeat domains from full AA sequence of human MUC16
+  Find indecies of repeat domains through alignment
+  Extract repeat domains into individual AA seqences
+
+#Create a concensus sequence of one of the 156AA repeat domains from the 60 in human MUC16:
+  Take set of 60 156AA sequences, and find the 'average' sequence to use as a repeat template
+  Identify set of most conserved AA loci for future conformational evaluation
+  
+#Create phylogeny of these 60
+  Compare distances between each sequence, and create a distance matrix
+  use this distance matrix to make a phylogenetic tree
+
+#Write a function that takes an amino acid sequence of MUC16 from another organism, and aligns it with the concensus repeat sequence from the human
+  take two AA seqences (reference and sample) and aligns them.
+    Get the indecies of the aligned regions from the sample sequence.
+    Subset the sample sequence into individual repeat sequences based on those indecies
+    Add these to the distance matrix from above, and create phylogenetic tree
+    
+#Compare alosteric differences between amino acid sequences
+  Using the one pdb file of a section of a repeat domain of MUC16 (mouse) compare this AA sequence to each other repeat sequence
+  note any changes in well conserved-AA, or in AA identified as important in the liturature.
+  Visualize differences by highlighting changed AA in pdb file viewer (pymol or julia alternative?)
+  
+    
