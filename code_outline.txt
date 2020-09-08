@@ -1,16 +1,22 @@
 Code outline for final project
 
-#Extract repeat domains from full AA sequence of human MUC16
-  Find indecies of repeat domains through alignment
-  Extract repeat domains into individual AA seqences
+#Extract repeat domains from full AA sequence of human MUC16  -- done with blast, will be automated later if time
+  Find indecies of repeat domains through alignment -- done with blast
+  Extract repeat domains into individual AA seqences -- done, see subsetfasta.jl
 
-#Create a concensus sequence of one of the 156AA repeat domains from the 60 in human MUC16:
-  Take set of 60 156AA sequences, and find the 'average' sequence to use as a repeat template
+#Create a concensus sequence of one of the 156AA repeat domains from the 64 in human MUC16:
+  Take set of 64 156AA sequences, and find the 'average' sequence to use as a repeat template
   Identify set of most conserved AA loci for future conformational evaluation
   
-#Create phylogeny of these 60
+  **I cannot find a package that does this in Julia, so I'm wondering if I can take this on as one of the main goals for my project. The goal would be to develop a function in Julia that takes in a file (fasta) with multiple versions of the same sequence. I would then go over each position and find the most common amino acid, and come up with an average sequence. I could also do some evaluation to score how conserved a certain residue is, by counting the number of repeats that it was present in as a percentage of all the repeats. That would identify structurally/functionally important residues. These could be compared to other species, or cancerous samples.
+  
+#Create phylogeny of these 64
   Compare distances between each sequence, and create a distance matrix
   use this distance matrix to make a phylogenetic tree
+
+
+
+If there is time:
 
 #Write a function that takes an amino acid sequence of MUC16 from another organism, and aligns it with the concensus repeat sequence from the human
   take two AA seqences (reference and sample) and aligns them.
