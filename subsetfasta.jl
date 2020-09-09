@@ -26,6 +26,13 @@ for i in 1:n_repeat
     global repeat_matrix[i,1] = Muc16_aa_sequence[Int(index_df[i,1]):Int(index_df[i,2])]
 end
 
+#count the length of each repeat
+length_array = fill(1, n_repeat)
+
+for i in 1:n_repeat
+    global length_array[i] = length(repeat_matrix[i,1])
+end
+
 #create empty string matrix
 title_matrix = fill("", n_repeat)
 
@@ -37,7 +44,7 @@ end
 #Write each aa repeat sequence to a record in a fasta file
 open(FASTA.Writer, "MUC16_repeats.fasta") do writer
     for i in 1:n_repeat
-        write(writer, FASTA.Record(string(i), title_matrix[i], repeat_matrix[i,1]))
+        write(writer, FASTA.Record(string(i, " - ", length_array[i], " Residues"), title_matrix[i], repeat_matrix[i,1]))
     end
 end
 
