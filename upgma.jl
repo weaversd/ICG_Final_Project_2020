@@ -164,7 +164,7 @@ end
 #The function for outputting newick file (UPGMA)
 #takes a data frame (distance matrix) and an array of strings which are the names of the samples in order
 #verbose (if true) prints all dataframes along the way
-function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Bool=true, verbose::Bool=false)
+function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Bool=true, verbose::Bool=false, distances::Bool=true)
     #loop through, eliminated one row/column/string each time
     #print lines are optional, for more information
 
@@ -218,9 +218,13 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Boo
         push!(dist_df, (strings[x], tdist))
         push!(dist_df, (strings[y], tdist))
         
-        #combine the strings on the lowest coordinate
-        combine_strings_dist(strings, x, y, dist_df)
-        
+        #combine the strings on the lowest coordinate with or without distances
+        if distances == true
+            combine_strings_dist(strings, x, y, dist_df)
+        else
+            combine_strings(strings, x, y)
+        end
+
         #print strings if verbose is true
         if verbose == true
             println(strings)
@@ -245,4 +249,4 @@ end
 #example dataframe and strings, and test function
 dataframe1 = add_missing(CSV.read("sampledf.csv"))
 values = ["A", "B", "C", "D", "E", "F", "G"]
-upgma(dataframe1, values, header = true, verbose = true)
+upgma(dataframe1, values, header = true, verbose = true, distances = true)
