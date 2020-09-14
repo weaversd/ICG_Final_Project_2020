@@ -68,6 +68,59 @@ function combine_strings(strings::Array{String,1}, a::Int64, b::Int64)
     return strings
 end
 
+#function to assemble the string to make output WITH DISTANCES
+function combine_strings_dist(strings::Array{String,1}, a::Int64, b::Int64, dist_df::DataFrame)
+
+    #ensure that the order is consistant, always join on the lower one
+    if b < a
+        a, b = b, a
+    end
+
+    #retrieve the distance value for the appropriate string from the distance dataframe
+    tdist_a = dist_df[dist_df.string .== strings[a],:][2][1]
+    tdist_b = dist_df[dist_df.string .== strings[b],:][2][1]
+
+    #get the length of the data frame
+    dist_df_len = nrow(dist_df)
+
+    #Check if the string a is already part of a node. If so, save the longest distance that it is associated with
+    #subtract two, because we don't want to include itself, or its pair
+    for i in 1:(dist_df_len-2)
+        if occursin(dist_df.string[i], strings[a])
+            global diff_a = dist_df.distance[i]
+        end
+    end
+
+    #same as above, but for b
+    for i in 1:(dist_df_len-2)
+        if occursin(dist_df.string[i], strings[b])
+            global diff_b = dist_df.distance[i]
+        end
+    end
+
+    #check to see if it is part of a node, if so, subtract previous distance (a)
+    if occursin(",", strings[a])
+        dist_a = tdist_a - diff_a
+    else
+        dist_a = tdist_a
+    end
+
+    #same as above, but for b
+    if occursin(",", strings[b])
+        dist_b = tdist_b - diff_b
+    else
+        dist_b = tdist_b
+    end
+
+    #join the values at the position of the first value
+    strings[a] = string("(", strings[a], ":", dist_a, ",", strings[b], ":", dist_b, ")")
+    
+    #remove the second (redundant) value from strings
+    setdiff!(strings, [strings[b]])
+
+    return strings
+end
+
 #function to combine df on the column
 #comma count is a way to track the weight of each entry
 #If it is already an average, it is weighted as two values (or more)
@@ -120,7 +173,6 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Boo
         println("Initial dataframe:")
         println(df)
         println(strings)
-
         println(string("number of strings: ", length(strings)))
         println(string("number of rows in DataFrame: ", nrow(df)))
     end
@@ -141,6 +193,8 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Boo
         return error
     end
 
+    #make distance dataframe to store values
+    dist_df = DataFrame(string = String[], distance = Float64[])
 
     #loop through until all the columns/strings have been combined
     while length(strings) > 1
@@ -158,9 +212,14 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Boo
             global comma_count[j] = count(i->(i==','), strings[j])
         end
         #println(comma_count)
+
+        #calculate distance
+        tdist = df[x,y]/2
+        push!(dist_df, (strings[x], tdist))
+        push!(dist_df, (strings[y], tdist))
         
         #combine the strings on the lowest coordinate
-        combine_strings(strings, x, y)
+        combine_strings_dist(strings, x, y, dist_df)
         
         #print strings if verbose is true
         if verbose == true
@@ -185,5 +244,5 @@ end
 
 #example dataframe and strings, and test function
 dataframe1 = add_missing(CSV.read("sampledf.csv"))
-values = ["A", "H", "a;sdlkfja;dlfjk", "D", "E", "F", "G"]
+values = ["A", "B", "C", "D", "E", "F", "G"]
 upgma(dataframe1, values, header = true, verbose = true)
