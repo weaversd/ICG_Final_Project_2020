@@ -247,6 +247,6 @@ end
 
 
 #example dataframe and strings, and test function
-dataframe1 = add_missing(CSV.read("sampledf.csv"))
+dataframe1 = add_missing(CSV.read("data_files/sampledf.csv"))
 values = ["A", "B", "C", "D", "E", "F", "G"]
 upgma(dataframe1, values, header = true, verbose = true, distances = true)

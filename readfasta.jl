@@ -8,7 +8,7 @@ using BioSequences
 muc16_seq = ""
 
 #read the fasta file
-r = open(FASTA.Reader, "Q8WXI7_full.fasta")
+r = open(FASTA.Reader, "data_files/Q8WXI7_full.fasta")
 
 #store sequence as Biosequence variable
 for record in r
@@ -22,6 +22,6 @@ end
 muc16_seq_str = convert(String, muc16_seq)
 
 
-open("MUC16_seq_str.txt", "w") do f
+open("data_files/MUC16_seq_str.txt", "w") do f
 	write(f, muc16_seq_str)
 end
