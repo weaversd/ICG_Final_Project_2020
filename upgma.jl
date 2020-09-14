@@ -164,7 +164,8 @@ end
 #The function for outputting newick file (UPGMA)
 #takes a data frame (distance matrix) and an array of strings which are the names of the samples in order
 #verbose (if true) prints all dataframes along the way
-function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Bool=true, verbose::Bool=false, distances::Bool=true)
+function upgma(df::DataFrame, strings::Array{String,1} = fill("",1), output::String ="file.newick";
+    header::Bool=true, verbose::Bool=false, distances::Bool=true)
     #loop through, eliminated one row/column/string each time
     #print lines are optional, for more information
 
@@ -247,6 +248,13 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Boo
         end
 
     end
+
+    #write the newick string to a text file specified by argument
+    open(output, "w") do f
+        write(f, string(strings[1], ";"))
+    end
+
+    #return newick as string
     return(string(strings[1], ";"))
 end
 
@@ -254,4 +262,4 @@ end
 #example dataframe and strings, and test function
 dataframe1 = add_missing(CSV.read("data_files/sampledf.csv"))
 values = ["A", "B", "C", "D", "E", "F", "G"]
-upgma(dataframe1, values, header = true, verbose = true, distances = true)
+upgma(dataframe1, values, "data_files/sample_file.newick", header = true, verbose = true, distances = true)
