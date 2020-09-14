@@ -214,7 +214,6 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1), output::Str
 
         #actually count the commas
         for j in 1:length(strings)
-            
             global comma_count[j] = count(i->(i==','), strings[j])
         end
         #println(comma_count)
@@ -262,4 +261,4 @@ end
 #example dataframe and strings, and test function
 dataframe1 = add_missing(CSV.read("data_files/sampledf.csv"))
 values = ["A", "B", "C", "D", "E", "F", "G"]
-upgma(dataframe1, values, "data_files/sample_file.newick", header = true, verbose = true, distances = true)
+upgma(dataframe1, values, "data_files/sample_file.newick", header = true, verbose = false, distances = true)
