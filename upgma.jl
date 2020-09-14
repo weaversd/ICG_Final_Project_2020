@@ -179,7 +179,11 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Boo
 
     #get the column names as the strings to use in the combine function if header is true
     if header == true
-        strings = names(df)
+        colnames = names(df)
+        n_cols = length(colnames)
+        for i in 1:n_cols
+            strings[i] = string(colnames[i])
+        end
     end
 
     #print strings if verbose is true
@@ -209,6 +213,7 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); header::Boo
 
         #actually count the commas
         for j in 1:length(strings)
+            
             global comma_count[j] = count(i->(i==','), strings[j])
         end
         #println(comma_count)
