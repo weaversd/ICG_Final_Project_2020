@@ -86,14 +86,14 @@ function combine_strings_dist(strings::Array{String,1}, a::Int64, b::Int64, dist
     #Check if the string a is already part of a node. If so, save the longest distance that it is associated with
     #subtract two, because we don't want to include itself, or its pair
     for i in 1:(dist_df_len-2)
-        if occursin(dist_df.string[i], strings[a])
+        if occursin(string("(", dist_df.string[i], ":"), strings[a]) || occursin(string(",", dist_df.string[i], ":"), strings[a])
             global diff_a = dist_df.distance[i]
         end
     end
 
     #same as above, but for b
     for i in 1:(dist_df_len-2)
-        if occursin(dist_df.string[i], strings[b])
+        if occursin(string("(", dist_df.string[i], ":"), strings[b]) || occursin(string(",", dist_df.string[i], ":"), strings[b])
             global diff_b = dist_df.distance[i]
         end
     end
