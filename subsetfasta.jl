@@ -38,13 +38,13 @@ title_matrix = fill("", n_repeat)
 
 #fill title matrix with repeat numbers 
 for i in 1:n_repeat
-    global title_matrix[i] = string("MUC16 Repeat Domain number ", i)
+    global title_matrix[i] = string("MUC16_Repeat_Domain_number_", i)
 end
 
 #Write each aa repeat sequence to a record in a fasta file
 open(FASTA.Writer, "data_files/MUC16_repeats_64.fasta") do writer
     for i in 1:n_repeat
-        write(writer, FASTA.Record(string(i, " - ", length_array[i], " Residues"), title_matrix[i], repeat_matrix[i,1]))
+        write(writer, FASTA.Record(string(i, " ", title_matrix[i]), string(length_array[i], " Residues"), repeat_matrix[i,1]))
     end
 end
 

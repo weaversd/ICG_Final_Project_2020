@@ -261,4 +261,9 @@ end
 #example dataframe and strings, and test function
 dataframe1 = add_missing(CSV.read("data_files/sampledf.csv"))
 values = ["A", "B", "C", "D", "E", "F", "G"]
-upgma(dataframe1, values, "data_files/sample_file.newick", header = true, verbose = false, distances = true)
+upgma(dataframe1, values, "data_files/sample_file.newick", header = true, verbose = true, distances = true)
+
+
+#example newick
+add_missing(distance_matrix)
+upgma(distance_matrix, letters, "data_files/MUC16_repeats_newick_1_abbreviated.newick", header = true, verbose = false, distances = true)

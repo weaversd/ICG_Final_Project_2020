@@ -14,3 +14,4 @@ end
 
 #example plot
 plot_newick("data_files/sample_file.newick")
+plot_newick("data_files/MUC16_repeats_newick_1_abbreviated.newick")
