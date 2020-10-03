@@ -4,7 +4,7 @@
 using DataFrames
 using CSV
 
-#convert dataframe to "lower left"
+#convert dataframe to "lower left" must be run before using with upgma
 #replace uppper values with missing
 function add_missing(df::DataFrame)
 
@@ -164,7 +164,7 @@ end
 #The function for outputting newick file (UPGMA)
 #takes a data frame (distance matrix) and an array of strings which are the names of the samples in order
 #verbose (if true) prints all dataframes along the way
-function upgma(df::DataFrame, strings::Array{String,1} = fill("",1), output::String ="file.newick";
+function upgma(df::DataFrame, strings::Array{String,1} = fill("",1); output::String ="file.newick",
     header::Bool=true, verbose::Bool=false, distances::Bool=true)
     #loop through, eliminated one row/column/string each time
     #print lines are optional, for more information
@@ -180,6 +180,7 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1), output::Str
 
     #get the column names as the strings to use in the combine function if header is true
     if header == true
+        strings = fill("", nrow(df))
         colnames = names(df)
         n_cols = length(colnames)
         for i in 1:n_cols
@@ -257,11 +258,18 @@ function upgma(df::DataFrame, strings::Array{String,1} = fill("",1), output::Str
     return(string(strings[1], ";"))
 end
 
+#function to create distance matrix if in csv form
+function create_dm_df(dm_csv::String)
+    distance_matrix_dataframe = add_missing(CSV.read(dm_csv))
+    return distance_matrix_dataframe
+end
+    
+
 
 #example dataframe and strings, and test function
 dataframe1 = add_missing(CSV.read("data_files/sampledf.csv"))
-values = ["A", "B", "C", "D", "E", "F", "G"]
-upgma(dataframe1, values, "data_files/sample_file.newick", header = true, verbose = true, distances = true)
+values = ["A", "B", "C", "D", "E", "F", "different letter"]
+upgma(dataframe1, values, output = "data_files/sample_file.newick", header = true, verbose = true, distances = true)
 
 
 #example newick
