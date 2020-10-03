@@ -31,7 +31,7 @@ for i in 1:n
     end
 end
 
-#create array to hold each repeat and one to hold each identifier
+#create array to hold each repeat and one to hold each identifier and description
 repeat_matrix = LongSequence{AminoAcidAlphabet}[]
 identifier_matrix = String[]
 description_matrix = String[]

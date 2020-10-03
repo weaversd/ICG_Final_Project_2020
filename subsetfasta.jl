@@ -71,3 +71,6 @@ function subset_fasta(file::String, index_file::String, output::String, prot_nam
     println("Individual repeat sequences saved to fasta file:")
     println(output)
 end
+
+#example
+subset_fasta("data_files/MUC16_seq_str.txt", "data_files/MUC16_repeat_index_64.txt", "data_files/subset_fasta_test10_3_2020.fasta", "MUC16 or CA125")
