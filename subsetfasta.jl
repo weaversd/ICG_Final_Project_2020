@@ -73,4 +73,30 @@ function subset_fasta(file::String, index_file::String, output::String, prot_nam
 end
 
 #example
-subset_fasta("data_files/MUC16_seq_str.txt", "data_files/MUC16_repeat_index_64.txt", "data_files/subset_fasta_test10_3_2020.fasta", "MUC16 or CA125")
+
+#subset_fasta("data_files/MUC16_seq_str.txt", "data_files/MUC16_repeat_index_64.txt", "data_files/subset_fasta_test10_3_2020.fasta", "MUC16 or CA125")
+
+
+#function to convert fasta file to text file
+function fasta_to_text(fasta_file::String, output_file::String)
+    seq = ""
+
+    #read the fasta file
+    r = open(FASTA.Reader, fasta_file)
+
+    #store sequence as Biosequence variable
+    for record in r
+        #global seq = sequence(record)
+        global sequin = sequence(record)
+    end
+
+    println(sequin)
+
+    #convert to string
+    sequin_str = convert(String, sequin)
+
+    open(output_file, "w") do f
+	    write(f, sequin_str)
+    end
+    println(string("saved sequence as ", output_file))
+end
